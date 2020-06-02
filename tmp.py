@@ -6,7 +6,7 @@ import time
 import json
 
 # 保存截图
-save_path = './img/'
+save_path = '/home/cat/img'
 shot_idx = 0
 # 请求地址
 host = "http://112.124.23.29:8081"
@@ -29,11 +29,11 @@ def getHeader():
 
 
 # 获取body
-def getBody(filepath):
+def getBody(filepath,name):
     with open(filepath, 'rb') as f:
         imgfile = f.read()
     data = {
-        'name': filepath,
+        'name': name,
         'imageBase64': str(base64.b64encode(imgfile), 'utf-8')
     }
     return data
@@ -100,10 +100,11 @@ while (1):
             else:
                 print("出现目标物，请求核实")
                 # 保存图像
-                fn = 'D:/CCTVlook/shot%d.jpg' % (shot_idx)
+                fn = '/home/cat/img/shot%d.jpg' % (shot_idx)
+                name = 'D:/CCTVlook/shot%d.jpg' % (shot_idx)
                 cv2.imwrite(fn, frame)
                 shot_idx += 1
-                r = requests.post(url, headers=getHeader(), data=json.dumps(getBody(fn)))
+                r = requests.post(url, headers=getHeader(), data=json.dumps(getBody(fn,name)))
                 # 返回信息
                 print(r.text)
                 break
